@@ -29,4 +29,4 @@ Usage: `./emailaddrextract <file to read> <output file>`
 
 ## Disclaimer
 
-This is for educational and research purposes only. The tool does what it specifically what it was made to do and it is as simple as that. I am not responsible for misuse or damage caused by the involvement of this tool.
+This is for educational and research purposes only. The tool does specifically what it was made to do and it is as simple as that. It is purely your responsibility in how it is used.
