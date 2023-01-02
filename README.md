@@ -4,7 +4,7 @@
 <br>
 
 <p align="center">
-    High performance email address extraction tool.
+    High performance email address extraction tool
     <br>
     <br>
     <a href="../../releases/latest" title="Latest release"><img src="https://img.shields.io/github/v/release/uintdev/email-addr-extract" alt="Version"></a>
