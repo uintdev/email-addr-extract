@@ -1,0 +1,8 @@
+# Builds
+/target
+
+# macOS Desktop Services Store
+.DS_Store
+
+# Files to test with
+/data
