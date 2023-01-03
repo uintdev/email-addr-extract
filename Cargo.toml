@@ -12,4 +12,5 @@ regex = "1.7.0"
 opt-level = 3
 panic = "abort"
 debug = false
-strip = "debuginfo"
+strip = "symbols"
+lto = "yes"
