@@ -19,7 +19,7 @@ fn args_validate(args: &Vec<String>) -> bool {
             dir_separator = "\\";
         }
 
-        eprint!("\n");
+        eprintln!();
         eprintln!(
             "Usage: .{}{} <input_file> <output_file>",
             dir_separator, file_name
@@ -65,7 +65,7 @@ fn file_process(file_handle: &File) -> io::Result<Vec<String>> {
     Ok(email_addresses)
 }
 
-fn file_write(file: &str, content: &Vec<String>) -> io::Result<()> {
+fn file_write(file: &str, content: &[String]) -> io::Result<()> {
     // Make the extracted list into a string but joint by new line, then write
     fs::write(file, content.join("\n"))?;
 
@@ -81,7 +81,7 @@ fn main() -> Result<(), Box<dyn Error>> {
     let version = env!("CARGO_PKG_VERSION");
 
     // Banner
-    print!("\n");
+    println!();
     println!("--- Email Addr Extract v{} ---", version);
 
     // Get command line arguments
@@ -94,13 +94,13 @@ fn main() -> Result<(), Box<dyn Error>> {
     let input_file = &args[1];
     let output_file = &args[2];
 
-    let file = match file_read(&input_file) {
+    let file = match file_read(input_file) {
         Ok(file) => file,
         Err(err) => return Err(format!("Failed to open file: {}", err).into()),
     };
 
     // Display information about the file selection
-    print!("\n");
+    println!();
     println!("Input file: {}", input_file);
 
     let metadata = match fs::metadata(input_file) {
@@ -110,7 +110,7 @@ fn main() -> Result<(), Box<dyn Error>> {
 
     println!("Input file size: {}", metadata.len());
     println!("Output file: {}", output_file);
-    print!("\n");
+    println!();
 
     let email_addr_results = match file_process(&file) {
         Ok(email_addr_results) => email_addr_results,
@@ -125,7 +125,7 @@ fn main() -> Result<(), Box<dyn Error>> {
         Err(e) => return Err(format!("Error writing to file: {}", e).into()),
     }
 
-    print!("\n");
+    println!();
 
     Ok(())
 }
