@@ -20,10 +20,7 @@ fn args_validate(args: &Vec<String>) -> bool {
         }
 
         eprintln!();
-        eprintln!(
-            "Usage: .{}{} <input_file> <output_file>",
-            dir_separator, file_name
-        );
+        eprintln!("Usage: .{dir_separator}{file_name} <input_file> <output_file>");
     }
     res
 }
@@ -69,10 +66,7 @@ fn file_write(file: &str, content: &[String]) -> io::Result<()> {
     // Make the extracted list into a string but joint by new line, then write
     fs::write(file, content.join("\n"))?;
 
-    println!(
-        "Email addresses written to output file '{}' successfully",
-        file
-    );
+    println!("Email addresses written to output file '{file}' successfully");
     Ok(())
 }
 
@@ -82,7 +76,7 @@ fn main() -> Result<(), Box<dyn Error>> {
 
     // Banner
     println!();
-    println!("--- Email Addr Extract v{} ---", version);
+    println!("--- Email Addr Extract v{version} ---");
 
     // Get command line arguments
     let args: Vec<String> = env::args().collect();
@@ -96,25 +90,25 @@ fn main() -> Result<(), Box<dyn Error>> {
 
     let file = match file_read(input_file) {
         Ok(file) => file,
-        Err(err) => return Err(format!("Failed to open file: {}", err).into()),
+        Err(err) => return Err(format!("Failed to open file: {err}").into()),
     };
 
     // Display information about the file selection
     println!();
-    println!("Input file: {}", input_file);
+    println!("Input file: {input_file}");
 
     let metadata = match fs::metadata(input_file) {
         Ok(metadata) => metadata,
-        Err(err) => return Err(format!("Failed to process file metadata: {}", err).into()),
+        Err(err) => return Err(format!("Failed to process file metadata: {err}").into()),
     };
 
     println!("Input file size: {}", metadata.len());
-    println!("Output file: {}", output_file);
+    println!("Output file: {output_file}");
     println!();
 
     let email_addr_results = match file_process(&file) {
         Ok(email_addr_results) => email_addr_results,
-        Err(err) => return Err(format!("Failed to process file contents: {}", err).into()),
+        Err(err) => return Err(format!("Failed to process file contents: {err}").into()),
     };
 
     println!("Writing results to file...");
@@ -122,7 +116,7 @@ fn main() -> Result<(), Box<dyn Error>> {
     // Write the email addresses to a new file
     match file_write(output_file, &email_addr_results) {
         Ok(()) => (),
-        Err(e) => return Err(format!("Error writing to file: {}", e).into()),
+        Err(err) => return Err(format!("Error writing to file: {err}").into()),
     }
 
     println!();
