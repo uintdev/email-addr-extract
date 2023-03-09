@@ -14,10 +14,7 @@ fn args_validate(args: &Vec<String>) -> bool {
         let file_name = file_path.file_name().unwrap().to_str().unwrap();
 
         // Determine correct separator to use
-        let mut dir_separator = "/";
-        if env::consts::OS == "windows" {
-            dir_separator = "\\";
-        }
+        let dir_separator = std::path::MAIN_SEPARATOR_STR;
 
         eprintln!();
         eprintln!("Usage: .{dir_separator}{file_name} <input_file> <output_file>");
