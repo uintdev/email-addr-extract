@@ -71,13 +71,33 @@ fn file_write(file: &str, content: &[String]) -> io::Result<()> {
     Ok(())
 }
 
-fn main() -> Result<(), Box<dyn Error>> {
+fn banner() {
     // Get software version
     let version = env!("CARGO_PKG_VERSION");
 
     // Banner
     println!();
-    println!("--- Email Addr Extract v{version} ---");
+    println!(r"╔═══════════════════════════════════════════════════════════════╗");
+    println!(r"║      _____                 _ _      _       _     _           ║");
+    println!(r"║     | ____|_ __ ___   __ _(_) |    / \   __| | __| |_ __      ║");
+    println!(r"║     |  _| | '_ ` _ \ / _` | | |   / _ \ / _` |/ _` | '__|     ║");
+    println!(r"║     | |___| | | | | | (_| | | |  / ___ \ (_| | (_| | |        ║");
+    println!(r"║     |_____|_| |_| |_|\__,_|_|_| /_/   \_\__,_|\__,_|_|        ║");
+    println!(r"║                                                               ║");
+    println!(r"║               _____      _                  _                 ║");
+    println!(r"║              | ____|_  _| |_ _ __ __ _  ___| |_               ║");
+    println!(r"║              |  _| \ \/ / __| '__/ _` |/ __| __|              ║");
+    println!(r"║              | |___ >  <| |_| | | (_| | (__| |_               ║");
+    println!(r"║              |_____/_/\_\\__|_|  \__,_|\___|\__|              ║");
+    println!(r"║                                                               ║");
+    println!(r"║                            v{version}                             ║");
+    println!(r"║                                                               ║");
+    println!(r"╚═══════════════════════════════════════════════════════════════╝");
+}
+
+fn main() -> Result<(), Box<dyn Error>> {
+    // Banner
+    banner();
 
     // Get command line arguments
     let args: Vec<String> = env::args().collect();
