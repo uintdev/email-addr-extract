@@ -5,21 +5,25 @@ use std::fs::{self, File};
 use std::io::{self, BufRead};
 use std::path::Path;
 
-fn args_validate(args: &Vec<String>) -> bool {
-    let mut res = true;
+fn args_validate(args: &Vec<String>) -> Result<(), ()> {
     if args.len() != 3 {
-        res = false;
+        eprintln!();
+
         // Get file name from path
         let file_path = Path::new(&args[0]);
-        let file_name = file_path.file_name().unwrap().to_str().unwrap();
+        let file_name = file_path.file_name().expect("Failed to gather file name");
 
         // Determine correct separator to use
         let dir_separator = std::path::MAIN_SEPARATOR_STR;
 
-        eprintln!();
-        eprintln!("Usage: .{dir_separator}{file_name} <input_file> <output_file>");
+        eprintln!(
+            "Usage: .{dir_separator}{} <input_file> <output_file>",
+            &file_name.to_string_lossy()
+        );
+        return Err(());
     }
-    res
+
+    Ok(())
 }
 
 fn file_read(file: &str) -> io::Result<File> {
@@ -78,7 +82,7 @@ fn main() -> Result<(), Box<dyn Error>> {
     // Get command line arguments
     let args: Vec<String> = env::args().collect();
 
-    if !args_validate(&args) {
+    if args_validate(&args).is_err() {
         return Ok(());
     }
 
