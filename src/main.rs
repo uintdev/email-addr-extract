@@ -20,6 +20,9 @@ fn args_validate(args: &Vec<String>) -> Result<(), ()> {
             "Usage: .{dir_separator}{} <input_file> <output_file>",
             &file_name.to_string_lossy()
         );
+
+        println!();
+
         return Err(());
     }
 
