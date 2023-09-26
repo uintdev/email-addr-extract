@@ -16,7 +16,7 @@
 
 Email Addr Extract is a tool that takes all the email addresses it finds in a file that has data between and then creates a list of emails addresses, one per line.
 
-This is a high performance port of the [Email Extractor](https://github.com/uintdev/Email-Extractor) project, of which was originally made in Python.
+This is a high performance port of the original Email Extractor Python variant.
 
 From testing, this was found to be around 14.5x faster with an almost 900MB file.
 
