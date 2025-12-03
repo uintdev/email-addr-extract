@@ -1,6 +1,7 @@
 use regex::Regex;
 use std::env;
 use std::error::Error;
+use std::ffi::OsStr;
 use std::fs::{self, File};
 use std::io::{self, BufRead};
 use std::path::Path;
@@ -10,11 +11,11 @@ fn args_validate(args: &Vec<String>) -> Result<(), ()> {
         eprintln!();
 
         // Get file name from path
-        let file_path = Path::new(&args[0]);
-        let file_name = file_path.file_name().expect("Failed to gather file name");
+        let file_path: &Path = Path::new(&args[0]);
+        let file_name: &OsStr = file_path.file_name().expect("Failed to gather file name");
 
         // Determine correct separator to use
-        let dir_separator = std::path::MAIN_SEPARATOR_STR;
+        let dir_separator: &str = std::path::MAIN_SEPARATOR_STR;
 
         eprintln!(
             "Usage: .{dir_separator}{} <input_file> <output_file>",
@@ -30,12 +31,12 @@ fn args_validate(args: &Vec<String>) -> Result<(), ()> {
 }
 
 fn file_read(file: &str) -> io::Result<File> {
-    let file_opener = fs::File::open(file)?;
+    let file_opener: File = fs::File::open(file)?;
     Ok(file_opener)
 }
 
 fn file_process(file_handle: &File) -> io::Result<Vec<String>> {
-    let reader = io::BufReader::new(file_handle);
+    let reader: io::BufReader<&File> = io::BufReader::new(file_handle);
 
     // Use a regular expression to search for any email addresses per line
     let email_regex = Regex::new(
@@ -48,10 +49,10 @@ fn file_process(file_handle: &File) -> io::Result<Vec<String>> {
 
     // Read the lines of the file
     for line in reader.lines() {
-        let line = line?;
+        let line: String = line?;
         // Go through the captures for the selected line
         for capture in email_regex.captures_iter(&line) {
-            let email = capture[0].to_string();
+            let email: String = capture[0].to_string();
             // Add to list
             email_addresses.push(email);
         }
@@ -75,7 +76,7 @@ fn file_write(file: &str, content: &[String]) -> io::Result<()> {
 
 fn banner() {
     // Get software version
-    let version = env!("CARGO_PKG_VERSION");
+    let version: &'static str = env!("CARGO_PKG_VERSION");
 
     // Banner
     println!();
@@ -108,10 +109,10 @@ fn main() -> Result<(), Box<dyn Error>> {
         return Ok(());
     }
 
-    let input_file = &args[1];
-    let output_file = &args[2];
+    let input_file: &String = &args[1];
+    let output_file: &String = &args[2];
 
-    let file = match file_read(input_file) {
+    let file: File = match file_read(input_file) {
         Ok(file) => file,
         Err(err) => return Err(format!("Failed to open file: {err}").into()),
     };
@@ -120,7 +121,7 @@ fn main() -> Result<(), Box<dyn Error>> {
     println!();
     println!("Input file: {input_file}");
 
-    let metadata = match fs::metadata(input_file) {
+    let metadata: fs::Metadata = match fs::metadata(input_file) {
         Ok(metadata) => metadata,
         Err(err) => return Err(format!("Failed to process file metadata: {err}").into()),
     };
@@ -129,7 +130,7 @@ fn main() -> Result<(), Box<dyn Error>> {
     println!("Output file: {output_file}");
     println!();
 
-    let email_addr_results = match file_process(&file) {
+    let email_addr_results: Vec<String> = match file_process(&file) {
         Ok(email_addr_results) => email_addr_results,
         Err(err) => return Err(format!("Failed to process file contents: {err}").into()),
     };
