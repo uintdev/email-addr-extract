@@ -5,6 +5,7 @@ use std::ffi::OsStr;
 use std::fs::{self, File};
 use std::io::{self, BufRead};
 use std::path::Path;
+use std::time::{Duration, Instant};
 
 fn args_validate(args: &Vec<String>) -> Result<(), ()> {
     if args.len() != 3 {
@@ -99,6 +100,8 @@ fn banner() {
 }
 
 fn main() -> Result<(), Box<dyn Error>> {
+    let timer_start: Instant = Instant::now();
+
     // Banner
     banner();
 
@@ -142,6 +145,13 @@ fn main() -> Result<(), Box<dyn Error>> {
         Ok(()) => (),
         Err(err) => return Err(format!("Error writing to file: {err}").into()),
     }
+
+    println!();
+
+    let timer_elapsed: Duration = timer_start.elapsed();
+    let timer_elapsed_ms: u128 = timer_elapsed.as_millis();
+
+    println!("Task took {} ms", timer_elapsed_ms);
 
     println!();
 
