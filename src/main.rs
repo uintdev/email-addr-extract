@@ -43,7 +43,7 @@ fn file_read(file: &str) -> io::Result<File> {
 }
 
 fn file_process(file_handle: &File) -> io::Result<Vec<String>> {
-    let reader: io::BufReader<&File> = io::BufReader::new(file_handle);
+    let reader: io::BufReader<&File> = io::BufReader::with_capacity(128 * 1024, file_handle);
 
     let mut email_addresses: Vec<String> = Vec::new();
 
