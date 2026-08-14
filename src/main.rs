@@ -52,8 +52,8 @@ fn file_process(file_handle: &File) -> io::Result<Vec<String>> {
     for line in reader.lines() {
         let line: String = line?;
         // Go through the captures for the selected line
-        for capture in email_regex.captures_iter(&line) {
-            let email: String = capture[0].to_string();
+        for capture in email_regex.find_iter(&line) {
+            let email: String = capture.as_str().to_string();
             // Add to list
             email_addresses.push(email);
         }
