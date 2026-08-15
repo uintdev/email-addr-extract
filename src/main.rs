@@ -54,13 +54,13 @@ fn file_process(file_handle: &File) -> io::Result<Vec<String>> {
         let line: String = line?;
         // Go through the captures for the selected line
         for capture in EMAIL_REGEX.find_iter(&line) {
-            let email: String = capture.as_str().to_string();
             // Add to list
-            email_addresses.push(email);
+            email_addresses.push(capture.as_str().to_string());
         }
     }
 
     // Clear duplicates
+    email_addresses.sort_unstable();
     email_addresses.dedup();
 
     println!("{} email addresses extracted", email_addresses.len());
